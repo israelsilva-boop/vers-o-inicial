@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PWA Meta Tags adicionadas -->
+    <meta name="theme-color" content="#ec4899">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Math Idol">
+    <title>K-Pop Math Idol: Desafio das Frações</title>
+    <!-- Carregando Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #4c1d95, #ec4899, #06b6d4, #8b5cf6);
+            background-size: 400% 400%;
+            animation: gradientBg 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes gradientBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-neon {
+            background: linear-gradient(90deg, #f472b6, #c084fc);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.5);
+            border: 2px solid transparent;
+        }
+        
+        .btn-neon:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px rgba(244, 114, 182, 0.8);
+            border: 2px solid white;
+        }
+
+        .btn-neon:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+        
+        .btn-neon-secondary {
+            background: linear-gradient(90deg, #64748b, #475569);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(100, 116, 139, 0.4);
+        }
+
+        .btn-neon-secondary:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 25px rgba(100, 116, 139, 0.7);
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.03);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .option-correct {
+            background: linear-gradient(90deg, #22c55e, #16a34a) !important;
+            border-color: #86efac !important;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6) !important;
+            color: white !important;
+            transform: scale(1.02);
+        }
+
+        .option-wrong {
+            background: linear-gradient(90deg, #ef4444, #dc2626) !important;
+            border-color: #fca5a5 !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6) !important;
+            color: white !important;
+        }
+
+        .option-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            40% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .animate-pop-in {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .hide-section {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="p-4 w-full">
+
+    <main id="app-container" class="w-full max-w-4xl relative mx-auto">
+        
+        <section id="home-screen" class="glass-panel rounded-3xl p-8 md:p-12 text-center animate-pop-in">
+            <div class="mb-6 flex justify-center text-6xl space-x-4">
+                <span>🎤</span><span>✨</span><span>🎶</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 drop-shadow-2xl" style="-webkit-text-stroke: 1px rgba(255,255,255,0.2);">
+                K-POP MATH IDOL
+            </h1>
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white drop-shadow-md">O Desafio das Frações</h2>
+            
+            <div class="bg-black/20 rounded-2xl p-6 mb-8 text-lg md:text-xl space-y-3 max-w-2xl mx-auto border border-white/10">
+                <p>Chegou a hora do seu debut! 🌟</p>
+                <p>Sua missão é resolver <strong>50 desafios de matemática</strong> sobre frações, todos inspirados no universo do K-pop (shows, álbuns, views, photocards).</p>
+                <p>Será que você consegue alcançar o rank de <strong class="text-pink-300 font-black">Global Superstar</strong>?</p>
+            </div>
+            
+            <button onclick="showStudyScreen()" class="btn-neon text-white font-bold py-5 px-12 rounded-full text-2xl flex items-center justify-center mx-auto gap-3">
+                Entrar na Sala de Ensaio 🎧
+            </button>
+        </section>
+
+        <section id="study-screen" class="glass-panel rounded-3xl p-6 md:p-10 hide-section">
+            <h2 class="text-4xl font-black mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-cyan-300">Sala de Ensaio: Revisão Rápida</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                <div class="bg-white/10 p-6 rounded-2xl border-l-4 border-pink-500 hover:bg-white/20 transition duration-300">
+                    <h3 class="text-2xl font-bold text-pink-300 mb-3 flex items-center gap-2"><span>🍕</span> D22: O que é Fração?</h3>
+                    <p class="text-md leading-relaxed">A fração representa partes de um todo. Exemplo: Se um grupo de K-pop tem 7 membros e 3 são rappers, a fração de rappers é <strong>3/7</strong>. O número de baixo (denominador) é o total, e o de cima (numerador) é a parte.</p>
+                </div>
+                
+                <div class="bg-white/10 p-6 rounded-2xl border-l-4 border-purple-500 hover:bg-white/20 transition duration-300">
+                    <h3 class="text-2xl font-bold text-purple-300 mb-3 flex items-center gap-2"><span>🎫</span> D23: Equivalência</h3>
+                    <p class="text-md leading-relaxed">Frações equivalentes valem a mesma coisa! 1/2 (metade) de um show é o mesmo que 2/4 ou 4/8. Para descobrir, basta multiplicar ou dividir o número de cima e o de baixo pelo mesmo valor.</p>
+                </div>
+                
+                <div class="bg-white/10 p-6 rounded-2xl border-l-4 border-cyan-500 hover:bg-white/20 transition duration-300">
+                    <h3 class="text-2xl font-bold text-cyan-300 mb-3 flex items-center gap-2"><span>💸</span> D24: Decimais</h3>
+                    <p class="text-md leading-relaxed">Frações podem virar números decimais (com vírgula). Se um adesivo custa R$ 0,50, isso é a metade (1/2) de um real. 0,25 é o mesmo que 1/4, e 0,10 é 1/10.</p>
+                </div>
+                
+                <div class="bg-white/10 p-6 rounded-2xl border-l-4 border-yellow-500 hover:bg-white/20 transition duration-300">
+                    <h3 class="text-2xl font-bold text-yellow-300 mb-3 flex items-center gap-2"><span>⏱️</span> D25: Cálculos (+ e -)</h3>
+                    <p class="text-md leading-relaxed">Quando os denominadores (números de baixo) são iguais, você os mantém e só soma ou subtrai os de cima! Ex: Se você aprendeu 1/4 da dança e depois + 2/4, você já sabe <strong>3/4</strong>!</p>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="btn-neon text-white font-black py-5 px-10 rounded-full text-2xl flex items-center justify-center mx-auto w-full md:w-2/3 shadow-xl">
+                Subir no Palco Principal (Quiz) 🎤🔥
+            </button>
+        </section>
+
+        <section id="quiz-screen" class="glass-panel rounded-3xl p-6 md:p-10 hide-section relative">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                <div class="bg-black/30 px-5 py-2 rounded-full border border-white/20 font-bold text-pink-300 text-xl shadow-inner">
+                    Questão <span id="question-counter" class="text-white">1 / 50</span>
+                </div>
+                <div class="bg-black/30 px-5 py-2 rounded-full border border-white/20 font-bold text-cyan-300 text-xl shadow-inner flex items-center gap-2">
+                    <span>⭐</span> Acertos: <span id="score-display" class="text-white text-2xl">0</span>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso -->
+            <div class="w-full bg-black/40 rounded-full h-4 mb-8 border border-white/10 overflow-hidden shadow-inner">
+                <div id="progress-bar" class="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 h-full rounded-full transition-all duration-500 ease-out shadow-[0_0_10px_rgba(236,72,153,0.8)]" style="width: 0%"></div>
+            </div>
+
+            <div class="bg-white/5 rounded-2xl p-6 md:p-8 mb-8 border border-white/10 shadow-lg relative">
+                <div class="absolute -top-4 left-6 bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-black tracking-widest shadow-lg border border-purple-400">
+                    DESCRITOR <span id="descriptor-label">D22</span>
+                </div>
+                
+                <h3 id="question-text" class="text-2xl md:text-3xl font-bold mb-8 leading-tight min-h-[90px] mt-2 text-center md:text-left drop-shadow-md">
+                    Carregando o desafio...
+                </h3>
+                
+                <div id="visual-aid" class="text-5xl text-center mb-6 h-16 flex justify-center items-center tracking-widest bg-black/20 rounded-xl py-4 border border-white/5">
+                    <!-- Emojis renderizados aqui -->
+                </div>
+
+                <!-- Grid de Opções -->
+                <div id="options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Botões gerados via JS -->
+                </div>
+            </div>
+            
+            <!-- Controles Inferiores -->
+            <div class="flex flex-col md:flex-row gap-4 mt-8">
+                <button id="prev-btn" onclick="prevQuestion()" class="btn-neon-secondary flex-1 py-4 px-6 rounded-2xl text-white font-bold text-xl flex items-center justify-center gap-2 hide-section">
+                    <span>⏪</span> Voltar e Refazer
+                </button>
+                <button id="next-btn" onclick="nextQuestion()" class="btn-neon flex-1 py-4 px-6 rounded-2xl text-white font-bold text-xl flex items-center justify-center gap-2 hide-section">
+                    Próxima Questão <span>⏭️</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="result-screen" class="glass-panel rounded-3xl p-8 md:p-12 text-center hide-section">
+            <h2 class="text-5xl md:text-6xl font-black mb-6 drop-shadow-lg">Fim da Turnê! 🎉</h2>
+            
+            <div class="bg-black/30 rounded-3xl p-8 max-w-lg mx-auto border border-white/20 mb-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-cyan-500/20 z-0"></div>
+                <div class="relative z-10">
+                    <p class="text-2xl mb-4 font-semibold text-gray-200">Pontuação Final</p>
+                    <div class="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-200 to-cyan-200 drop-shadow-xl mb-8 flex justify-center items-baseline gap-2">
+                        <span id="final-score">0</span> <span class="text-4xl text-gray-400 font-normal">/ 50</span>
+                    </div>
+                    
+                    <div class="h-px w-full bg-white/20 mb-6"></div>
+                    
+                    <p class="text-xl mb-2 text-gray-300">O seu Rank de Idol Oficial é:</p>
+                    <p id="rank-title" class="text-4xl md:text-5xl font-black text-pink-400 mb-4 drop-shadow-[0_0_15px_rgba(244,114,182,0.6)]">Trainee</p>
+                    <p id="rank-msg" class="text-lg text-gray-300">Continue praticando para o seu debut!</p>
+                </div>
+            </div>
+            
+            <button onclick="location.reload()" class="btn-neon text-white font-black py-5 px-12 rounded-full text-2xl flex items-center justify-center mx-auto gap-3">
+                Jogar Novamente 🔄
+            </button>
+        </section>
+
+        <div id="feedback-toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900/95 p-8 rounded-3xl border-4 shadow-[0_0_50px_rgba(0,0,0,0.8)] z-50 hide-section flex-col items-center justify-center text-center min-w-[320px] backdrop-blur-md">
+            <div id="feedback-icon" class="text-7xl mb-4 animate-bounce">✨</div>
+            <h3 id="feedback-title" class="text-3xl font-black mb-3">Daebak!</h3>
+            <p id="feedback-message" class="text-xl text-gray-200">Você acertou a questão!</p>
+        </div>
+
+    </main>
+
+    <script>
+        // Banco de Dados: 50 Questões cobrindo os descritores D22 a D25
+        const questionsDatabase = [
+            // D22: Reconhecer fração como representação associada a diferentes significados
+            { d: "D22", v: "👩👩👩👩", q: "Um girl group possui 4 integrantes. Se 1 delas é a líder, qual fração representa a líder em relação ao grupo todo?", o: ["1/4", "1/2", "3/4", "4/1"], a: 0 },
+            { d: "D22", v: "👦👦👦👦👦👦👦", q: "Em um boy group com 7 membros, 3 deles nasceram em Seul. Qual fração representa os membros nascidos em Seul?", o: ["3/7", "7/3", "4/7", "1/7"], a: 0 },
+            { d: "D22", v: "🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵", q: "Um álbum tem 10 músicas. O grupo gravou MVs (clipes) para 2 faixas. Qual fração representa as músicas com clipe?", o: ["2/10", "1/10", "8/10", "10/2"], a: 0 },
+            { d: "D22", v: "🎫🎫🎫🎫🎫", q: "Você comprou 5 ingressos. Usou 1 para você e deu o resto aos amigos. Qual fração dos ingressos você usou?", o: ["1/5", "4/5", "1/4", "5/1"], a: 0 },
+            { d: "D22", v: "💿💿💿💿💿💿", q: "Você tem 6 álbuns. 5 deles são do seu grupo ultimate. Qual a fração de álbuns do seu ultimate?", o: ["5/6", "1/6", "6/5", "5/5"], a: 0 },
+            { d: "D22", v: "👗👗👗👗", q: "Das 4 roupas usadas no stage, 3 eram cor-de-rosa. Qual a fração das roupas rosas?", o: ["3/4", "1/4", "4/3", "2/4"], a: 0 },
+            { d: "D22", v: "📸📸📸📸📸📸📸📸", q: "Em um pack de 8 photocards, 3 vieram repetidos. Qual a fração dos repetidos?", o: ["3/8", "5/8", "1/8", "8/3"], a: 0 },
+            { d: "D22", v: "🏆🏆🏆🏆🏆", q: "O grupo ganhou 5 prêmios. 2 foram de 'Música do Ano'. Qual fração representa esses prêmios?", o: ["2/5", "3/5", "1/5", "5/2"], a: 0 },
+            { d: "D22", v: "▶️▶️▶️▶️▶️▶️▶️▶️▶️", q: "Dos 9 milhões de views, 4 milhões vieram do Brasil. Qual a fração das views brasileiras?", o: ["4/9", "5/9", "9/4", "1/9"], a: 0 },
+            { d: "D22", v: "🎤🎤🎤🎤🎤", q: "Apenas 2 dos 5 membros cantaram no refrão. Qual fração cantou o refrão?", o: ["2/5", "3/5", "1/5", "5/2"], a: 0 },
+            { d: "D22", v: "💬💬💬💬💬💬💬💬💬💬", q: "Na live, 7 de cada 10 comentários eram corações. Qual fração representa os corações?", o: ["7/10", "3/10", "10/7", "1/10"], a: 0 },
+            { d: "D22", v: "👯‍♀️👯‍♀️👯‍♀️👯‍♀️👯‍♀️👯‍♀️👯‍♀️👯‍♀️👯‍♀️", q: "O TWICE tem 9 integrantes. A sub-unit MiSaMo tem 3 membros. Que fração do grupo está na sub-unit?", o: ["3/9", "6/9", "1/9", "9/3"], a: 0 },
+            { d: "D22", v: "📦📦📦📦📦", q: "Um box vem com 5 itens extras. 4 são pôsteres. Qual é a fração de pôsteres?", o: ["4/5", "1/5", "5/4", "3/5"], a: 0 },
+
+            // D23: Identificar frações equivalentes
+            { d: "D23", v: "✨✨✨✨", q: "No show, 1/2 da plateia ligou os lightsticks. Qual fração abaixo é equivalente a 1/2?", o: ["2/4", "1/3", "3/5", "4/10"], a: 0 },
+            { d: "D23", v: "🃏🃏🃏🃏🃏🃏", q: "Você tem 2/6 da coleção de photocards. Um amigo disse que tem a proporção equivalente. Qual fração ele tem?", o: ["1/3", "2/3", "4/6", "3/6"], a: 0 },
+            { d: "D23", v: "🎟️🎟️🎟️🎟️🎟️🎟️🎟️🎟️", q: "Foram vendidos 4/8 dos ingressos VIP. Essa fração é equivalente a:", o: ["1/2", "1/4", "3/4", "2/8"], a: 0 },
+            { d: "D23", v: "💃🕺", q: "Eles mostraram 2/10 da coreografia no teaser. Qual fração simplificada é equivalente?", o: ["1/5", "2/5", "1/10", "5/10"], a: 0 },
+            { d: "D23", v: "💰", q: "Você pagou 3/4 do valor da van para o show. Qual fração abaixo é equivalente a 3/4?", o: ["6/8", "4/6", "3/8", "9/10"], a: 0 },
+            { d: "D23", v: "💿💿💿", q: "A fração de álbuns vendidos na Ásia foi 10/20. Isso é o mesmo que:", o: ["1/2", "1/5", "2/10", "1/4"], a: 0 },
+            { d: "D23", v: "🎧", q: "O rapper canta 2/8 da música. Simplificando, ele canta que fração?", o: ["1/4", "1/2", "3/4", "2/4"], a: 0 },
+            { d: "D23", v: "⭐", q: "As photocards holográficas saem em 5/15 dos pacotes. Qual a fração irredutível?", o: ["1/3", "1/5", "2/5", "3/15"], a: 0 },
+            { d: "D23", v: "👟", q: "Você aprendeu 6/9 dos passos de dança. Qual fração é equivalente a 6/9?", o: ["2/3", "1/3", "4/9", "3/6"], a: 0 },
+            { d: "D23", v: "🎥", q: "A empresa gastou 8/12 do orçamento no cenário do clipe. Qual é a fração equivalente?", o: ["2/3", "1/4", "3/4", "1/2"], a: 0 },
+            { d: "D23", v: "🗳️", q: "Se 4/16 do fandom votou, que fração simplificada os representa?", o: ["1/4", "1/2", "2/8", "1/8"], a: 0 },
+            { d: "D23", v: "🛍️", q: "Você tem 3/12 das versões do álbum. Qual fração é equivalente?", o: ["1/4", "1/3", "1/6", "1/2"], a: 0 },
+
+            // D24: Reconhecer representações decimais
+            { d: "D24", v: "🪙", q: "Um chaveiro custa R$ 15,50. A parte decimal (,50) representa que fração de 1 real?", o: ["1/2", "1/4", "1/5", "3/4"], a: 0 },
+            { d: "D24", v: "🍀", q: "A chance de tirar o seu bias é de 0,25. Em fração, isso é:", o: ["1/4", "1/2", "2/5", "3/4"], a: 0 },
+            { d: "D24", v: "📈", q: "A audiência subiu 0,75 no gráfico. Qual fração equivale a 0,75?", o: ["3/4", "1/2", "1/4", "4/5"], a: 0 },
+            { d: "D24", v: "🏷️", q: "O desconto para fã-clube é de 0,10. Como fração, isso é:", o: ["1/10", "1/100", "1/5", "10/1"], a: 0 },
+            { d: "D24", v: "⏱️", q: "O challenge no TikTok tem 0,2 minutos de duração. Qual fração equivale a 0,2?", o: ["1/5", "1/2", "2/100", "1/4"], a: 0 },
+            { d: "D24", v: "🔋", q: "O lightstick usou 0,5 da bateria. Isso equivale a:", o: ["1/2", "1/5", "5/100", "1/4"], a: 0 },
+            { d: "D24", v: "💳", q: "A taxa de conveniência foi 0,05 do valor. Como se escreve isso em fração?", o: ["5/100", "1/5", "5/10", "50/100"], a: 0 },
+            { d: "D24", v: "💸", q: "O Idol recebeu 0,3 dos lucros da turnê. Qual fração é essa?", o: ["3/10", "1/3", "3/100", "30/10"], a: 0 },
+            { d: "D24", v: "📝", q: "O álbum teve nota 0,8 da crítica. Que fração representa 0,8?", o: ["8/10", "1/8", "8/100", "4/5"], a: 0 },
+            { d: "D24", v: "💧", q: "Você tomou 0,75 litro de água na fila. Isso equivale a:", o: ["75/100", "3/5", "7/5", "75/10"], a: 0 },
+            { d: "D24", v: "🔢", q: "A fração 1/2 corresponde a qual número decimal?", o: ["0,5", "0,12", "0,2", "1,2"], a: 0 },
+            { d: "D24", v: "🔢", q: "A fração 1/4 corresponde a qual número decimal?", o: ["0,25", "0,14", "0,4", "1,4"], a: 0 },
+            { d: "D24", v: "🔢", q: "Se a avaliação do clipe foi de 0,50 estrelas em 1, qual a fração correspondente?", o: ["1/2", "5/100", "1/4", "1/5"], a: 0 },
+
+            // D25: Cálculos com frações
+            { d: "D25", v: "🎧🎧", q: "Você escutou 2/8 de uma música, parou, e escutou mais 3/8. Quanto escutou ao todo?", o: ["5/8", "6/8", "5/16", "1/8"], a: 0 },
+            { d: "D25", v: "🃏🃏", q: "Na pasta, 4/10 das fotos são do Stray Kids e 3/10 do TXT. Qual a soma das frações?", o: ["7/10", "1/10", "12/10", "7/20"], a: 0 },
+            { d: "D25", v: "💰📉", q: "Você tinha 7/9 do dinheiro pro álbum. Gastou 2/9 no lanche. Quanto restou?", o: ["5/9", "9/9", "5/18", "14/9"], a: 0 },
+            { d: "D25", v: "💃🕺", q: "O grupo ensaiou 1/3 da dança de manhã e 1/3 à tarde. Qual o total ensaiado?", o: ["2/3", "2/6", "1/9", "3/3"], a: 0 },
+            { d: "D25", v: "✂️", q: "A dança estava 5/6 pronta. Mas o coreógrafo cortou 1/6 (subtraiu). Quanto da coreografia sobrou pronta?", o: ["4/6", "6/6", "5/36", "4/12"], a: 0 },
+            { d: "D25", v: "✈️", q: "No avião, os Idols dormiram 1/4 da viagem e viram filme por 2/4. Qual o total gasto nisso?", o: ["3/4", "3/8", "2/8", "2/4"], a: 0 },
+            { d: "D25", v: "💧💧", q: "Você bebeu 3/5 da garrafa e sua amiga 1/5 de outra igual. Juntas, beberam quanto de uma garrafa?", o: ["4/5", "4/10", "2/5", "3/25"], a: 0 },
+            { d: "D25", v: "💡🌧️", q: "O palco tinha 8/10 das luzes montadas. A chuva queimou 3/10. Quantas luzes sobraram funcionando (fração)?", o: ["5/10", "11/10", "5/20", "24/10"], a: 0 },
+            { d: "D25", v: "🎯", q: "Faltam 2/7 pra meta de views. Vocês conseguiram 1/7 agora. Quanto falta ainda?", o: ["1/7", "3/7", "1/14", "2/49"], a: 0 },
+            { d: "D25", v: "🎤", q: "Você cantou 4/12 do Medley e a amiga 5/12. Quanto cantaram no total?", o: ["9/12", "1/12", "20/12", "9/24"], a: 0 },
+            { d: "D25", v: "✂️📃", q: "Usou 1/2 de folha rosa e 1/2 de preta. Quanto usou no total?", o: ["2/2 (1 inteira)", "1/4", "2/4", "1/2"], a: 0 },
+            { d: "D25", v: "🐖🪙", q: "Guardou 1/4 do valor do ingresso ontem e 2/4 hoje. Qual fração você já tem?", o: ["3/4", "3/8", "2/16", "1/4"], a: 0 },
+            { d: "D25", v: "🎁", q: "Você tem 10/15 da coleção. Doou 3/15. Com quanto ficou?", o: ["7/15", "13/15", "7/30", "30/15"], a: 0 }
+        ];
+
+        // Variáveis de Estado
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function showStudyScreen() {
+            document.getElementById('home-screen').classList.add('hide-section');
+            let study = document.getElementById('study-screen');
+            study.classList.remove('hide-section');
+            study.classList.add('animate-pop-in');
+        }
+
+        function startQuiz() {
+            // Prepara as questões e embaralha suas opções UMA única vez
+            // O índice 0 no array original era a resposta correta
+            currentQuestions = shuffleArray(questionsDatabase).slice(0, 50).map(q => {
+                let optionsWithMeta = q.o.map((text, index) => ({
+                    text: text,
+                    isCorrect: index === q.a 
+                }));
+                return {
+                    ...q,
+                    shuffledOptions: shuffleArray(optionsWithMeta),
+                    userAnswer: null // Armazena a escolha feita pelo usuário na sessão atual
+                };
+            });
+            
+            currentIndex = 0;
+            score = 0;
+            
+            document.getElementById('study-screen').classList.add('hide-section');
+            let quiz = document.getElementById('quiz-screen');
+            quiz.classList.remove('hide-section');
+            quiz.classList.add('animate-pop-in');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            
+            // Oculta o botão 'Próxima' inicialmente, a menos que já tenha sido respondida
+            nextBtn.classList.add('hide-section');
+            
+            // Mostrar botão 'Voltar' se não for a primeira questão
+            if (currentIndex > 0) {
+                prevBtn.classList.remove('hide-section');
+            } else {
+                prevBtn.classList.add('hide-section');
+            }
+            
+            // Checa se o quiz acabou
+            if (currentIndex >= currentQuestions.length) {
+                showResults();
+                return;
+            }
+
+            const q = currentQuestions[currentIndex];
+            
+            // Atualizando Interface
+            document.getElementById('question-counter').innerText = `${currentIndex + 1} / 50`;
+            document.getElementById('score-display').innerText = score;
+            document.getElementById('descriptor-label').innerText = q.d;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('visual-aid').innerText = q.v;
+            
+            // Anima a barra de progresso suavemente
+            const progress = ((currentIndex) / 50) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            const optionsContainer = document.getElementById('options-grid');
+            optionsContainer.innerHTML = '';
+            
+            // Renderiza as 4 opções embaralhadas
+            q.shuffledOptions.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                const letter = String.fromCharCode(65 + idx); // A, B, C, D
+                
+                btn.innerHTML = `<span class="bg-white/20 text-white font-bold rounded-lg px-3 py-1 mr-3">${letter}</span> <span class="flex-1">${opt.text}</span>`;
+                btn.className = "option-btn w-full text-left p-4 md:p-5 rounded-2xl text-xl font-bold flex items-center";
+                
+                // Trata caso a questão já tenha sido respondida antes (quando usamos o botão Voltar)
+                if (q.userAnswer !== null) {
+                    if (idx === q.userAnswer.selectedIndex) {
+                        if (q.userAnswer.isCorrect) btn.classList.add('option-correct');
+                        else btn.classList.add('option-wrong');
+                    }
+                    btn.disabled = true;
+                    nextBtn.classList.remove('hide-section'); // Libera para avançar se já respondeu
+                } else {
+                    btn.onclick = () => checkAnswer(opt.isCorrect, btn, idx);
+                }
+                
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(isCorrect, selectedBtn, selectedIndex) {
+            // Trava todos os botões imediatamente
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => {
+                b.onclick = null;
+                b.disabled = true;
+            });
+
+            const q = currentQuestions[currentIndex];
+            
+            // Registra a resposta para caso o aluno use o botão Voltar
+            q.userAnswer = { isCorrect, selectedIndex };
+
+            const modal = document.getElementById('feedback-toast');
+            const icon = document.getElementById('feedback-icon');
+            const title = document.getElementById('feedback-title');
+            const msg = document.getElementById('feedback-message');
+
+            if (isCorrect) {
+                selectedBtn.classList.add('option-correct');
+                score++;
+                
+                icon.innerText = "🌟";
+                title.innerText = "Daebak! (Incrível!)";
+                title.className = "text-3xl font-black mb-3 text-green-400";
+                msg.innerText = "Seu cálculo foi perfeito!";
+                modal.style.borderColor = "#4ade80"; // Verde
+            } else {
+                selectedBtn.classList.add('option-wrong');
+                
+                icon.innerText = "😅";
+                title.innerText = "Ops, fora do ritmo!";
+                title.className = "text-3xl font-black mb-3 text-red-400";
+                msg.innerText = "Use o botão Voltar se quiser tentar de novo!";
+                modal.style.borderColor = "#f87171"; // Vermelho
+            }
+            
+            document.getElementById('score-display').innerText = score;
+
+            // Exibir o Toast Feedback
+            modal.classList.remove('hide-section');
+            modal.classList.add('animate-pop-in');
+            
+            // Oculta o toast após breve momento e libera botão Next
+            setTimeout(() => {
+                modal.classList.add('hide-section');
+                modal.classList.remove('animate-pop-in');
+                document.getElementById('next-btn').classList.remove('hide-section');
+                document.getElementById('next-btn').classList.add('animate-pop-in');
+            }, 2000);
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            loadQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                const q = currentQuestions[currentIndex];
+                
+                // LÓGICA CRUCIAL DO "VOLTAR E REFAZER":
+                // Se o aluno acertou antes, retiramos o ponto, pois ele vai refazer a questão.
+                if (q.userAnswer && q.userAnswer.isCorrect) {
+                    score--;
+                }
+                
+                // Resetamos o estado da resposta para permitir clicar novamente
+                q.userAnswer = null; 
+                
+                // Recarrega a tela da questão anterior
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hide-section');
+            let res = document.getElementById('result-screen');
+            res.classList.remove('hide-section');
+            res.classList.add('animate-pop-in');
+
+            document.getElementById('final-score').innerText = score;
+            
+            let rankTitle = "";
+            let rankMsg = "";
+            let colorClass = "";
+            
+            if (score === 50) {
+                rankTitle = "GLOBAL SUPERSTAR 🌟👑";
+                rankMsg = "Perfeito! Você é uma lenda da matemática e do K-pop. Seu debut foi histórico!";
+                colorClass = "text-yellow-400";
+            } else if (score >= 40) {
+                rankTitle = "IDOL DE SUCESSO 🎤✨";
+                rankMsg = "Sensacional! Você domina as frações e já lota estádios pelo mundo!";
+                colorClass = "text-pink-400";
+            } else if (score >= 25) {
+                rankTitle = "ROOKIE PROMISSOR 🎶";
+                rankMsg = "Muito bom! Você fez um debut incrível, mas ainda há ensaios pela frente.";
+                colorClass = "text-cyan-400";
+            } else if (score >= 10) {
+                rankTitle = "TRAINEE DEDICADO 👟";
+                rankMsg = "Você está pegando o ritmo. Continue ensaiando as frações para melhorar na agência!";
+                colorClass = "text-purple-400";
+            } else {
+                rankTitle = "NOVO FÃ 🤔";
+                rankMsg = "Acho que você precisa voltar para a Sala de Ensaio e treinar mais um pouco as coreografias das frações!";
+                colorClass = "text-gray-400";
+            }
+
+            const titleEl = document.getElementById('rank-title');
+            titleEl.innerText = rankTitle;
+            titleEl.className = `text-4xl md:text-5xl font-black mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] ${colorClass}`;
+            
+            document.getElementById('rank-msg').innerText = rankMsg;
+            document.getElementById('progress-bar').style.width = `100%`;
+        }
+
+        // Criação do Manifest dinâmico para PWA
+        const manifest = {
+            "name": "K-Pop Math Idol: Desafio das Frações",
+            "short_name": "Math Idol",
+            "description": "Aplicativo pedagógico de matemática sobre frações.",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#4c1d95",
+            "theme_color": "#ec4899",
+            "icons": [{
+                // Usando um SVG simples de emoji como ícone para manter tudo em 1 arquivo
+                "src": "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎤</text></svg>",
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }]
+        };
+
+        // Injeta o Manifest no cabeçalho
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestUrl;
+        document.head.appendChild(link);
+
+        // Criação e Registro do Service Worker dinâmico (Para Cache e Offline)
+        const swCode = `
+            const CACHE_NAME = 'kpop-math-v1';
+            self.addEventListener('install', event => {
+                event.waitUntil(
+                    caches.open(CACHE_NAME).then(cache => {
+                        // Faz o cache da página atual
+                        return cache.addAll(['./']);
+                    })
+                );
+            });
+            self.addEventListener('fetch', event => {
+                event.respondWith(
+                    caches.match(event.request).then(response => {
+                        // Retorna do cache se tiver offline, se não, busca na rede
+                        return response || fetch(event.request);
+                    })
+                );
+            });
+        `;
+        
+        const swBlob = new Blob([swCode], {type: 'text/javascript'});
+        const swUrl = URL.createObjectURL(swBlob);
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('PWA ServiceWorker registrado com sucesso:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('Falha ao registrar PWA ServiceWorker:', err);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
